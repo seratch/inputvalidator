@@ -1,0 +1,31 @@
+@(username: Option[String], password: Option[String], errors: Seq[String])
+@main("Input Validator DSL demo") {
+
+  <form method="POST" action="/login/submit" class="form-horizontal">
+    <fieldset>
+    <div class="control-group @if(!errors.isEmpty){ error }">
+      @errors.map { error =>
+        <div class="controls error">
+          <span class="help-inline error">@error</span>
+        </div>
+      }
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="username">Username</label>
+      <div class="controls">
+        <input type="text" id="username" name="username" value="@username">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        <input type="password" id="password" name="password" value="@password">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn">Login</button>
+    </div>
+    </fieldset>
+  </form>
+
+}
