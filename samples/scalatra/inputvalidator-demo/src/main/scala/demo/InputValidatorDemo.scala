@@ -15,6 +15,10 @@ class InputValidatorDemo extends ScalatraServlet with ScalateSupport {
     ssp("index")
   }
 
+  get("/login") {
+    ssp("login")
+  }
+
   post("/submit") {
     Validator(params)(
       inputKey("username") is required & minLength(3),
