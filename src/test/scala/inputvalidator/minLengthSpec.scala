@@ -10,6 +10,7 @@ class minLengthSpec extends FlatSpec with ShouldMatchers {
   it should "be available" in {
     val min: Int = 2
     val validate = new minLength(min)
+    validate.name should equal("minLength")
     validate.messageParams should equal(Seq("2"))
 
     validate(input("id", null)).isSuccess should equal(false)

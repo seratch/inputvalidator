@@ -9,6 +9,7 @@ class sameSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = same
+    validate.name should equal("same")
 
     validate(input("pair" -> (1, 1))).isSuccess should equal(true)
     validate(input("pair" -> ("a", "a"))).isSuccess should equal(true)

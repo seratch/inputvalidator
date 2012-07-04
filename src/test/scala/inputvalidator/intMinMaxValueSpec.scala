@@ -11,6 +11,7 @@ class intMinMaxValueSpec extends FlatSpec with ShouldMatchers {
     val min: Int = 2
     val max: Int = 5
     val validate = new intMinMaxValue(min, max)
+    validate.name should equal("intMinMaxValue")
     validate.messageParams should equal(Seq("2", "5"))
 
     validate(input("id", -1)).isSuccess should equal(false)

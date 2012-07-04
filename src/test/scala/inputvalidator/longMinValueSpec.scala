@@ -10,6 +10,7 @@ class longMinValueSpec extends FlatSpec with ShouldMatchers {
   it should "be available" in {
     val min = 2L
     val validate = new longMinValue(min)
+    validate.name should equal("longMinValue")
     validate.messageParams should equal(Seq("2"))
 
     validate(KeyValueInput("id", -1)).isSuccess should equal(false)

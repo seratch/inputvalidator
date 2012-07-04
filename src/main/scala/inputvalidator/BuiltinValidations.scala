@@ -120,7 +120,7 @@ object numeric extends Validation {
 // input("x" -> 4) is intMinMaxValue(3, 5)
 
 case class intMinMaxValue(min: Int, max: Int) extends Validation {
-  def name = "intMinValue"
+  def name = "intMinMaxValue"
   override def messageParams = Seq(min.toString, max.toString)
   def isValid(v: Any) = v != null && v.toString.toInt >= min && v.toString.toInt <= max
 }
@@ -138,7 +138,7 @@ case class intMinValue(min: Int) extends Validation {
 // input("x" -> 4) is intMaxValue(5)
 
 case class intMaxValue(max: Int) extends Validation {
-  def name = "intMinValue"
+  def name = "intMaxValue"
   override def messageParams = Seq(max.toString)
   def isValid(v: Any) = v != null && v.toString.toInt <= max
 }
@@ -147,7 +147,7 @@ case class intMaxValue(max: Int) extends Validation {
 // input("x" -> "3") is longMinMaxValue(3L, 5L)
 
 case class longMinMaxValue(min: Long, max: Long) extends Validation {
-  def name = "longMinValue"
+  def name = "longMinMaxValue"
   override def messageParams = Seq(min.toString, max.toString)
   def isValid(v: Any) = v != null && v.toString.toLong >= min && v.toString.toLong <= max
 }
@@ -165,7 +165,7 @@ case class longMinValue(min: Long) extends Validation {
 // input("x" -> 1.0D) is longMaxValue(5L)
 
 case class longMaxValue(max: Long) extends Validation {
-  def name = "longMinValue"
+  def name = "longMaxValue"
   override def messageParams = Seq(max.toString)
   def isValid(v: Any) = v != null && v.toString.toLong <= max
 }

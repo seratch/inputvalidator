@@ -9,6 +9,7 @@ class emailSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = email
+    validate.name should equal("email")
 
     validate(input("x" -> null)).isSuccess should equal(false)
     validate(input("x" -> "")).isSuccess should equal(false)

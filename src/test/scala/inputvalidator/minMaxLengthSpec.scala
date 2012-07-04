@@ -11,6 +11,7 @@ class minMaxLengthSpec extends FlatSpec with ShouldMatchers {
     val min: Int = 2
     val max: Int = 3
     val validate = new minMaxLength(min, max)
+    validate.name should equal("minMaxLength")
     validate.messageParams should equal(Seq("2", "3"))
 
     validate(input("id", null)).isSuccess should equal(false)

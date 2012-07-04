@@ -9,6 +9,7 @@ class requiredSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = required
+    validate.name should equal("required")
 
     validate(input("id", null)).isSuccess should equal(false)
     validate(input("id", "")).isSuccess should equal(false)

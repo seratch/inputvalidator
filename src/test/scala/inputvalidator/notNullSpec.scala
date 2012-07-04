@@ -9,6 +9,7 @@ class notNullSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = notNull
+    validate.name should equal("notNull")
 
     validate(input("id", null)).isSuccess should equal(false)
 

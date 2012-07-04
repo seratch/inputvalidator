@@ -10,6 +10,7 @@ class maxLengthSpec extends FlatSpec with ShouldMatchers {
   it should "be available" in {
     val max: Int = 3
     val validate = new maxLength(max)
+    validate.name should equal("maxLength")
     validate.messageParams should equal(Seq("3"))
 
     validate(input("id", null)).isSuccess should equal(false)

@@ -11,6 +11,7 @@ class longMinMaxValueSpec extends FlatSpec with ShouldMatchers {
     val min = 2L
     val max = 5L
     val validate = new longMinMaxValue(min, max)
+    validate.name should equal("longMinMaxValue")
     validate.messageParams should equal(Seq("2", "5"))
 
     validate(input("id", -1)).isSuccess should equal(false)

@@ -11,6 +11,8 @@ class pastSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = past
+    validate.name should equal("past")
+
     validate(input("x" -> null)).isSuccess should equal(false)
 
     validate(input("x" -> DateTime.now.minusDays(1))).isSuccess should equal(true)

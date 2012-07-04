@@ -10,6 +10,8 @@ class intMinValueSpec extends FlatSpec with ShouldMatchers {
   it should "be available" in {
     val min: Int = 2
     val validate = new intMinValue(min)
+    validate.name should equal("intMinValue")
+
     validate.messageParams should equal(Seq("2"))
 
     validate(KeyValueInput("id", -1)).isSuccess should equal(false)

@@ -9,6 +9,7 @@ class numericSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = numeric
+    validate.name should equal("numeric")
 
     validate(input("id", "abc")).isSuccess should equal(false)
     validate(input("id", "あ")).isSuccess should equal(false)

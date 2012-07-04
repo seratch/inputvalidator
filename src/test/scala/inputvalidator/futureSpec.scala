@@ -11,6 +11,8 @@ class futureSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = future
+    validate.name should equal("future")
+
     validate(input("x" -> null)).isSuccess should equal(false)
 
     validate(input("x" -> DateTime.now.minusDays(1))).isSuccess should equal(false)

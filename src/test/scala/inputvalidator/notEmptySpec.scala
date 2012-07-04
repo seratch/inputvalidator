@@ -9,6 +9,7 @@ class notEmptySpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val validate = notEmpty
+    validate.name should equal("notEmpty")
 
     validate(input("id", null)).isSuccess should equal(false)
     validate(input("id", "")).isSuccess should equal(false)

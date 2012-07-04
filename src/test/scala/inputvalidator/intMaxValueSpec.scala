@@ -10,6 +10,8 @@ class intMaxValueSpec extends FlatSpec with ShouldMatchers {
   it should "be available" in {
     val max = 3
     val validate = new intMaxValue(max)
+    validate.name should equal("intMaxValue")
+
     validate.messageParams should equal(Seq("3"))
 
     validate(input("id", -1)).isSuccess should equal(true)
