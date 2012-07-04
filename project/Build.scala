@@ -11,7 +11,7 @@ object AppBuild extends Build {
     sbtPlugin := false,
     organization := "com.github.seratch",
     name := "inputvalidator",
-    version := "0.1.0-SNAPSHOT",
+    version := "0.1.0",
     scalaVersion := "2.9.2",
     crossScalaVersions := Seq("2.9.2", "2.9.1"),
     externalResolvers ~= (_.filter(_.name != "Scala-Tools Maven2 Repository")),
@@ -44,7 +44,7 @@ object AppBuild extends Build {
       </licenses>
       <scm>
         <url>git@github.com:seratch/inputvalidator.git</url>
-        <connection>scm:git:git@github.com:seratch/input-validator.git</connection>
+        <connection>scm:git:git@github.com:seratch/inputvalidator.git</connection>
       </scm>
       <developers>
         <developer>

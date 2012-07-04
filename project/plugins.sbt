@@ -19,3 +19,11 @@ libraryDependencies += Defaults.sbtPluginExtra("com.typesafe.sbtscalariform" % "
 //addSbtPlugin("me.lessis" % "ls-sbt" % "0.1.1")
 libraryDependencies += Defaults.sbtPluginExtra("me.lessis" % "ls-sbt" % "0.1.1", "0.11.2", "2.9.1")
 
+// for sonatype publishment
+
+resolvers += Resolver.url("sbt-plugin-releases", new URL("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases/"))(Resolver.ivyStylePatterns)
+
+//addSbtPlugin("com.jsuereth" % "xsbt-gpg-plugin" % "0.5")
+libraryDependencies += Defaults.sbtPluginExtra("com.jsuereth" % "xsbt-gpg-plugin" % "0.5", "0.11.2", "2.9.1")
+
+
