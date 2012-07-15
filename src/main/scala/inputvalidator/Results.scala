@@ -1,8 +1,8 @@
 package inputvalidator
 
-case class Results(results: Seq[Result]) {
+case class Results(inputMap: Map[String, Any], results: Seq[Result]) {
 
-  def inputs: Inputs = Inputs(this)
+  def inputs: Inputs = InputsFromMap(inputMap)
 
   def errors: Errors = Errors(filterErrorsOnly())
 
@@ -25,6 +25,8 @@ case class Results(results: Seq[Result]) {
   }
 
   def toSeq(): Seq[Result] = results
+
+  def toMap(): Map[String, Any] = Map(results.map { r => (r.input.key, r.input.value) }: _*)
 
 }
 

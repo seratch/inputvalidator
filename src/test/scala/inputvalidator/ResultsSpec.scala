@@ -9,7 +9,7 @@ class ResultsSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val results = Nil
-    val instance = new Results(results)
+    val instance = new Results(Map(), results)
     instance should not be null
   }
 

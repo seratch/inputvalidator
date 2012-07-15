@@ -4,7 +4,7 @@ trait ValidatorLike {
 
   val results: Results
 
-  lazy val inputs: Inputs = Inputs(results)
+  lazy val inputs: Inputs = InputsFromResults(results)
 
   lazy val errors: Errors = Errors(results.toSeq.filter {
     result => result.isInstanceOf[Failure]

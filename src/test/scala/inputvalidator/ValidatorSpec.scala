@@ -118,4 +118,51 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
     ).success { inputs => }.failure { (inputs, errors) => fail() }.apply()
   }
 
+  it should "apply several times (success)" in {
+    Validator
+      .apply(input("a", "aa") is required)
+      .apply(input("b", "bb") is required)
+      .success { inputs =>
+        inputs.string("a").get should equal("aa")
+        inputs.string("b").get should equal("bb")
+      }.failure { (inputs, errors) =>
+        fail()
+      }.apply()
+
+    Validator(Map("a" -> 1, "b" -> 2, "c" -> 3))
+      .apply(inputKey("a") is required)
+      .apply(inputKey("b") is required)
+      .success { inputs =>
+        inputs.int("a").get should equal(1)
+        inputs.int("b").get should equal(2)
+        inputs.int("c").get should equal(3)
+      }.failure { (inputs, errors) =>
+        fail()
+      }.apply()
+  }
+
+  it should "apply several times (failure)" in {
+    Validator
+      .apply(input("a", null) is required)
+      .apply(input("b", "") is required)
+      .apply(input("c", "cc") is required)
+      .success { inputs =>
+        fail()
+      }.failure { (inputs, errors) =>
+        inputs.string("a").get should equal(null)
+        inputs.string("b").get should equal("")
+        inputs.string("c").get should equal("cc")
+      }.apply()
+
+    Validator(Map("a" -> null, "b" -> "", "c" -> "cc"))
+      .apply(inputKey("a") is required)
+      .apply(inputKey("b") is required)
+      .success { inputs =>
+        fail()
+      }.failure { (inputs, errors) =>
+        inputs.string("a").get should equal(null)
+        inputs.string("b").get should equal("")
+        inputs.string("c").get should equal("cc")
+      }.apply()
+  }
 }

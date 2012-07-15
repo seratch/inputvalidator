@@ -1,40 +1,48 @@
 package inputvalidator
 
-case class Inputs(results: Results) {
+sealed trait Inputs {
 
-  private[this] lazy val map: Map[String, Any] = toMap()
-
-  def filterSuccessesOnly(): Seq[Input] = results.filterSuccessesOnly().map(r => r.input)
-
-  def filterFailuresOnly(): Seq[Input] = results.filterFailuresOnly().map(r => r.input)
+  protected val inputMap: Map[String, Any]
 
   def keys(): Seq[String] = toSeq().map(_.key)
 
   def values(): Seq[Any] = toSeq().map(_.value)
 
-  def toMap(): Map[String, Any] = results.toSeq.map(r => r.input).map(input => (input.key, input.value)).toMap
+  def toMap(): Map[String, Any] = inputMap
 
-  def toSeq(): Seq[Input] = results.toSeq.map(r => r.input)
+  def toSeq(): Seq[Input] = inputMap.toSeq.map { case (k, v) => KeyValueInput(k, v) }
 
-  def get(key: String): Option[Any] = map.get(key)
+  def get(key: String): Option[Any] = inputMap.get(key)
 
-  def getOrElse[A](key: String, default: A): A = map.get(key).map(_.asInstanceOf[A]).getOrElse(default)
+  def getOrElse[A](key: String, default: A): A = inputMap.get(key).map(_.asInstanceOf[A]).getOrElse(default)
 
-  def boolean(key: String) = map.get(key).asInstanceOf[Option[Boolean]]
+  def boolean(key: String) = inputMap.get(key).asInstanceOf[Option[Boolean]]
 
-  def byte(key: String) = map.get(key).asInstanceOf[Option[Byte]]
+  def byte(key: String) = inputMap.get(key).asInstanceOf[Option[Byte]]
 
-  def double(key: String) = map.get(key).asInstanceOf[Option[Double]]
+  def double(key: String) = inputMap.get(key).asInstanceOf[Option[Double]]
 
-  def float(key: String) = map.get(key).asInstanceOf[Option[Float]]
+  def float(key: String) = inputMap.get(key).asInstanceOf[Option[Float]]
 
-  def int(key: String) = map.get(key).asInstanceOf[Option[Int]]
+  def int(key: String) = inputMap.get(key).asInstanceOf[Option[Int]]
 
-  def long(key: String) = map.get(key).asInstanceOf[Option[Long]]
+  def long(key: String) = inputMap.get(key).asInstanceOf[Option[Long]]
 
-  def short(key: String) = map.get(key).asInstanceOf[Option[Short]]
+  def short(key: String) = inputMap.get(key).asInstanceOf[Option[Short]]
 
-  def string(key: String) = map.get(key).asInstanceOf[Option[String]]
+  def string(key: String) = inputMap.get(key).asInstanceOf[Option[String]]
+
+}
+
+case class InputsFromResults(results: Results) extends Inputs {
+
+  override protected val inputMap: Map[String, Any] = results.toMap()
+
+}
+
+case class InputsFromMap(map: Map[String, Any]) extends Inputs {
+
+  override protected val inputMap: Map[String, Any] = map
 
 }
 
