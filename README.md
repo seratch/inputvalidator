@@ -3,7 +3,7 @@
 ## Scala Input Validator with quite readable DSL
 
 ```
-libraryDependencies += "com.github.seratch" %% "inputvalidator" % "[0.1,)"
+libraryDependencies += "com.github.seratch" %% "inputvalidator" % "[0.2,)"
 ```
 
 Use as follows:

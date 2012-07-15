@@ -11,7 +11,7 @@ object AppBuild extends Build {
     sbtPlugin := false,
     organization := "com.github.seratch",
     name := "inputvalidator",
-    version := "0.1.0",
+    version := "0.2.0",
     scalaVersion := "2.9.2",
     crossScalaVersions := Seq("2.9.2", "2.9.1"),
     externalResolvers ~= (_.filter(_.name != "Scala-Tools Maven2 Repository")),
