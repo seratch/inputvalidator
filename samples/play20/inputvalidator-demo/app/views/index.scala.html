@@ -1,10 +1,13 @@
 @(username: Option[String])
-@main("Input Validator DSL demo") {
+@main("InputValidator Demo") {
 
   @if(username.isDefined){
     Hello, @username!
   }else {
-    <a href="/login/input">login</a>  
+    <a href="/login/input" class="btn">Login</a>
   }
+  <hr/>
+  <a href="/upload/input" class="btn">File Upload</a>
+  <hr/>
 
 }

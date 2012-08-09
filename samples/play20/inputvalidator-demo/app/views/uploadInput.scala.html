@@ -1,0 +1,31 @@
+@(name: Option[String], errors: Seq[String])
+@main("Upload Demo") {
+
+  <form method="POST" action="/upload/submit" enctype="multipart/form-data" class="form-horizontal">
+    <fieldset>
+    <div class="control-group @if(!errors.isEmpty){ error }">
+      @errors.map { error =>
+        <div class="controls error">
+          <span class="help-inline error">@error</span>
+        </div>
+      }
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="name">Name</label>
+      <div class="controls">
+        <input type="text" id="name" name="name" value="@name">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="profile_image">Profile Image</label>
+      <div class="controls">
+        <input type="file" id="profile_image" name="profile_image">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn">Upload</button>
+    </div>
+    </fieldset>
+  </form>
+
+}
