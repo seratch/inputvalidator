@@ -1,6 +1,6 @@
 package inputvalidator.play
 
-import play.api.mvc.{ AnyContentAsMultipartFormData, MultipartFormData, AnyContent, Request }
+import play.api.mvc.{AnyContentAsMultipartFormData, MultipartFormData, AnyContent, Request}
 import play.api.mvc.MultipartFormData._
 
 case class RequestWithParameters(req: Request[_]) {
