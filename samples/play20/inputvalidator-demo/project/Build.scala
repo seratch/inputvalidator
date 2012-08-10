@@ -8,10 +8,11 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0-SNAPSHOT"
 
     val appDependencies = Seq(
-      "com.github.seratch" %% "inputvalidator" % "[0.1,)"
+      "com.github.seratch" %% "inputvalidator" % "0.2.1"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = SCALA).settings(
+      resolvers += "Sonatype OSS" at "http://oss.sonatype.org/content/repositories/releases"
     )
 
 }

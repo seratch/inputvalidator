@@ -1,10 +1,10 @@
 package controllers
 
-import _root_.play.api.mvc.MultipartFormData.FilePart
 import play.api.mvc._
-import inputvalidator.play.Implicits._
 
 import inputvalidator._
+import inputvalidator.play._
+import inputvalidator.play.Implicits._
 
 object Application extends Controller {
 
@@ -27,8 +27,8 @@ object Application extends Controller {
       ).failure { (inputs, errors) =>
 
           BadRequest(views.html.loginInput(
-            username = inputs.get("username").map(_.toString),
-            password = inputs.get("password").map(_.toString),
+            username = inputs.string("username"),
+            password = inputs.string("password"),
             errors = inputs.keys.flatMap { key =>
               errors.get(key).map { error =>
                 Messages.get(
@@ -47,21 +47,7 @@ object Application extends Controller {
   }
 
   def uploadInput = Action {
-    Ok(views.html.uploadInput(None, Nil))
-  }
-
-  object fileRequired extends Validation {
-
-    def name = "fileRequired"
-
-    def isValid(file: Any) = {
-      if (file.isInstanceOf[FilePart[_]]) {
-        val f: FilePart[_] = file.asInstanceOf[FilePart[_]]
-        f.filename != null
-      } else {
-        false
-      }
-    }
+    Ok(views.html.uploadInput(None, None, Nil))
   }
 
   def uploadSubmit = Action {
@@ -74,11 +60,9 @@ object Application extends Controller {
 
       ).failure { (inputs, errors) =>
 
-          // TODO inputs do not contain "profile_image"
-          println(errors)
-
           BadRequest(views.html.uploadInput(
-            name = inputs.get("name").map(_.toString),
+            name = inputs.string("name"),
+            profileImage = inputs.get("profile_image"),
             errors = inputs.keys.flatMap { key =>
               errors.get(key).map {
                 error =>
@@ -90,10 +74,9 @@ object Application extends Controller {
             }
           ))
 
-        }.success {
-          inputs =>
+        }.success { inputs =>
 
-            Ok(views.html.index(inputs.get("name").map(_.toString)))
+          Ok(views.html.index(inputs.get("name").map(_.toString)))
 
         }.apply()
   }

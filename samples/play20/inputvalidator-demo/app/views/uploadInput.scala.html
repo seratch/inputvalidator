@@ -1,4 +1,4 @@
-@(name: Option[String], errors: Seq[String])
+@(name: Option[String], profileImage: Option[Any], errors: Seq[String])
 @main("Upload Demo") {
 
   <form method="POST" action="/upload/submit" enctype="multipart/form-data" class="form-horizontal">
@@ -19,7 +19,7 @@
     <div class="control-group">
       <label class="control-label" for="profile_image">Profile Image</label>
       <div class="controls">
-        <input type="file" id="profile_image" name="profile_image">
+        <input type="file" id="profile_image" name="profile_image" value="@profileImage">
       </div>
     </div>
     <div class="form-actions">
