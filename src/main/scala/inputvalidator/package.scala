@@ -8,7 +8,7 @@ package object inputvalidator {
     def merge(v1: Validation, v2: Validation): Validation = {
       new Object with Validation {
 
-        def name: String = "combined-validations"
+        def name: String = "combined-results"
         def isValid(value: Any): Boolean = throw new IllegalStateException
 
         override def apply(input: KeyValueInput): Result = {

@@ -15,7 +15,7 @@ trait Validation extends Function[KeyValueInput, Result] with Error {
     val _this = this
     new Object with Validation {
 
-      def name: String = "combined-validations"
+      def name: String = "combined-results"
       def isValid(value: Any): Boolean = throw new IllegalStateException
 
       override def apply(input: KeyValueInput): Result = {

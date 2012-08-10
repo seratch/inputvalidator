@@ -165,4 +165,18 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
         inputs.string("c").get should equal("cc")
       }.apply()
   }
+
+  it should "apply key-lacked Map value" in {
+    Validator(Map("first" -> "aaa"))
+      .apply(inputKey("first") is required)
+      .apply(inputKey("second") is required)
+      .success { inputs =>
+        fail()
+      }.failure { (inputs, errors) =>
+        inputs.keys().size should equal(2)
+        inputs.string("first").get should equal("aaa")
+        inputs.string("second").get should equal(null)
+      }.apply()
+  }
+
 }
