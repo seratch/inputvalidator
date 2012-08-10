@@ -111,13 +111,19 @@ Furthermore, this library does not depend on any other components. So you can do
 
 Please see the following examples.
 
-https://github.com/seratch/inputvalidator/tree/master/samples
+- Play framework 2.x Scala
 
-- with Play20
+https://github.com/seratch/inputvalidator/tree/master/play-module
 
-- with Scalatra
+https://github.com/seratch/inputvalidator/tree/master/samples/play20
 
-- with Circumflex
+- Scalatra
+
+https://github.com/seratch/inputvalidator/tree/master/samples/scalatra
+
+- Circumflex
+
+https://github.com/seratch/inputvalidator/tree/master/samples/circumflex
 
 
 ## License
