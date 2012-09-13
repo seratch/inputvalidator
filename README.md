@@ -47,7 +47,7 @@ val v = Validator(params)(
 
 See the following source code:
 
-https://github.com/seratch/inputvalidator/blob/master/src/main/scala/inputvalidator/BuiltinValidations.scala
+hhttps://github.com/seratch/inputvalidator/blob/master/library/src/main/scala/inputvalidator/BuiltinValidations.scala
 
 Your pull requests are always welcome.
 
