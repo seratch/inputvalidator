@@ -5,7 +5,7 @@ object AppBuild extends Build {
 
   // library project
 
-  val _version = "0.2.1"
+  val _version = "0.2.2"
 
   lazy val libraryProject = Project(id = "library", base = file("library"), settings = Defaults.defaultSettings ++ Seq(
     sbtPlugin := false,
@@ -22,9 +22,9 @@ object AppBuild extends Build {
     libraryDependencies <++= (scalaVersion) {
       scalaVersion =>
         Seq(
-          "joda-time" % "joda-time" % "2.1" % "test",
-          "org.joda" % "joda-convert" % "1.2" % "test",
-          "org.scalatest" %% "scalatest" % "1.7.2" % "test"
+          "joda-time"     %  "joda-time"    % "2.1"   % "test",
+          "org.joda"      %  "joda-convert" % "1.2"   % "test",
+          "org.scalatest" %% "scalatest"    % "1.7.2" % "test"
         )
     },
     publishTo <<= version {
@@ -52,7 +52,7 @@ object AppBuild extends Build {
     externalResolvers ~= (_.filter(_.name != "Scala-Tools Maven2 Repository")),
     resolvers ++= Seq(
       "typesafe releases" at "http://repo.typesafe.com/typesafe/releases",
-      "sonatype releases" at "http://oss.sonatype.org/content/repositories/releases/"
+      "sonatype releases" at "http://oss.sonatype.org/content/repositories/releases"
     ),
     libraryDependencies <++= (scalaVersion) {
       scalaVersion =>
