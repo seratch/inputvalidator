@@ -16,19 +16,68 @@ sealed trait Inputs {
 
   def getOrElse[A](key: String, default: A): A = inputMap.get(key).map(_.asInstanceOf[A]).getOrElse(default)
 
-  def boolean(key: String) = inputMap.get(key).asInstanceOf[Option[Boolean]]
+  def boolean(key: String): Option[Boolean] = get(key).map { v =>
+    try {
+      v.asInstanceOf[Boolean]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Boolean.parseBoolean(v.toString)
+    }
+  }
 
-  def byte(key: String) = inputMap.get(key).asInstanceOf[Option[Byte]]
+  def byte(key: String) = get(key).map { v =>
+    try {
+      v.asInstanceOf[Byte]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Byte.parseByte(v.toString)
+    }
+  }
 
-  def double(key: String) = inputMap.get(key).asInstanceOf[Option[Double]]
+  def double(key: String) = get(key).map { v =>
+    try {
+      v.asInstanceOf[Double]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Double.parseDouble(v.toString)
+    }
+  }
 
-  def float(key: String) = inputMap.get(key).asInstanceOf[Option[Float]]
+  def float(key: String) = get(key).map { v =>
+    try {
+      v.asInstanceOf[Float]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Float.parseFloat(v.toString)
+    }
+  }
 
-  def int(key: String) = inputMap.get(key).asInstanceOf[Option[Int]]
+  def int(key: String) = get(key).map { v =>
+    try {
+      v.asInstanceOf[Int]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Integer.parseInt(v.toString)
+    }
+  }
 
-  def long(key: String) = inputMap.get(key).asInstanceOf[Option[Long]]
+  def long(key: String) = get(key).map { v =>
+    try {
+      v.asInstanceOf[Long]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Long.parseLong(v.toString)
+    }
+  }
 
-  def short(key: String) = inputMap.get(key).asInstanceOf[Option[Short]]
+  def short(key: String) = get(key).map { v =>
+    try {
+      v.asInstanceOf[Short]
+    } catch {
+      case e: ClassCastException =>
+        java.lang.Short.parseShort(v.toString)
+    }
+  }
 
   def string(key: String) = inputMap.get(key).asInstanceOf[Option[String]]
 
