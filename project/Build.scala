@@ -3,8 +3,6 @@ import Keys._
 
 object AppBuild extends Build {
 
-  // library project
-
   val _version = "0.2.2"
 
   lazy val libraryProject = Project(id = "library", base = file("library"), settings = Defaults.defaultSettings ++ Seq(
@@ -12,20 +10,24 @@ object AppBuild extends Build {
     organization := "com.github.seratch",
     name := "inputvalidator",
     version := _version,
-    scalaVersion := "2.9.2",
-    crossScalaVersions := Seq("2.9.2", "2.9.1"),
+    scalaVersion := "2.10.0",
+    crossScalaVersions := Seq("2.10.0", "2.9.2", "2.9.1"),
     externalResolvers ~= (_.filter(_.name != "Scala-Tools Maven2 Repository")),
     resolvers ++= Seq(
       "typesafe releases" at "http://repo.typesafe.com/typesafe/releases",
       "sonatype releases" at "http://oss.sonatype.org/content/repositories/releases/"
     ),
-    libraryDependencies <++= (scalaVersion) {
-      scalaVersion =>
-        Seq(
-          "joda-time"     %  "joda-time"    % "2.1"   % "test",
-          "org.joda"      %  "joda-convert" % "1.2"   % "test",
-          "org.scalatest" %% "scalatest"    % "1.7.2" % "test"
-        )
+    libraryDependencies <++= (scalaVersion) { scalaVersion =>
+      val _scalaVersion = "_" + (scalaVersion match {
+        case "2.10.0" => "2.10.0"
+        case version => version
+      })
+      val scalatest = "scalatest" + _scalaVersion
+      Seq(
+        "joda-time"     %  "joda-time"    % "2.1"   % "test",
+        "org.joda"      %  "joda-convert" % "1.2"   % "test",
+        "org.scalatest" %  scalatest      % "1.8"   % "test"
+      )
     },
     publishTo <<= version {
       (v: String) =>
@@ -47,22 +49,31 @@ object AppBuild extends Build {
     organization := "com.github.seratch",
     name := "inputvalidator-play",
     version := _version,
-    scalaVersion := "2.9.2",
-    crossScalaVersions := Seq("2.9.2", "2.9.1"),
-    externalResolvers ~= (_.filter(_.name != "Scala-Tools Maven2 Repository")),
+    scalaVersion := "2.10.0",
+    crossScalaVersions := Seq("2.10.0", "2.9.1"),
     resolvers ++= Seq(
       "typesafe releases" at "http://repo.typesafe.com/typesafe/releases",
       "sonatype releases" at "http://oss.sonatype.org/content/repositories/releases"
     ),
-    libraryDependencies <++= (scalaVersion) {
-      scalaVersion =>
-        Seq(
-          "com.github.seratch" %% "inputvalidator" % _version,
-          "play" % "play_2.9.1" % "2.0.3" % "provided",
-          "play" % "play-test_2.9.1" % "2.0.3" % "test",
-          "org.joda" % "joda-convert" % "1.2" % "test",
-          "org.scalatest" %% "scalatest" % "1.7.2" % "test"
-        )
+    libraryDependencies <++= (scalaVersion) { scalaVersion =>
+      scalaVersion match {
+        case "2.10.0-RC1"|"2.10.0" => {
+          val playVersion = "2.1-RC1"
+          Seq(
+            "play" % "play_2.10" % playVersion % "provided",
+            "play" % "play-test_2.10" % playVersion % "test",
+            "org.scalatest" %% "scalatest" % "1.8"   % "test"
+          )
+        }
+        case _ => {
+          val playVersion = "2.0.4"
+          Seq(
+            "play" % "play_2.9.1" % playVersion % "provided",
+            "play" % "play-test_2.9.1" % playVersion % "test",
+            "org.scalatest" %% "scalatest" % "1.8"   % "test"
+          )
+        }
+      }
     },
     publishTo <<= version {
       (v: String) =>
@@ -77,7 +88,7 @@ object AppBuild extends Build {
     },
     pomExtra := _pomExtra,
     scalacOptions ++= Seq("-deprecation", "-unchecked"))
-  )
+  ) dependsOn(libraryProject)
 
   val _pomExtra = (
     <url>https://github.com/seratch/inputvalidator</url>
