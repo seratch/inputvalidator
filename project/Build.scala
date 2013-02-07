@@ -3,7 +3,7 @@ import Keys._
 
 object AppBuild extends Build {
 
-  val _version = "0.2.2"
+  val _version = "0.2.3"
 
   lazy val libraryProject = Project(id = "library", base = file("library"), settings = Defaults.defaultSettings ++ Seq(
     sbtPlugin := false,
@@ -11,7 +11,7 @@ object AppBuild extends Build {
     name := "inputvalidator",
     version := _version,
     scalaVersion := "2.10.0",
-    crossScalaVersions := Seq("2.10.0", "2.9.2", "2.9.1"),
+    crossScalaVersions := Seq("2.10.0", "2.9.2"),
     externalResolvers ~= (_.filter(_.name != "Scala-Tools Maven2 Repository")),
     resolvers ++= Seq(
       "typesafe releases" at "http://repo.typesafe.com/typesafe/releases",
@@ -50,27 +50,23 @@ object AppBuild extends Build {
     name := "inputvalidator-play",
     version := _version,
     scalaVersion := "2.10.0",
-    crossScalaVersions := Seq("2.10.0", "2.9.1"),
+    crossScalaVersions := Seq("2.10.0"),
     resolvers ++= Seq(
       "typesafe releases" at "http://repo.typesafe.com/typesafe/releases",
       "sonatype releases" at "http://oss.sonatype.org/content/repositories/releases"
     ),
     libraryDependencies <++= (scalaVersion) { scalaVersion =>
+      val _scalaVersion = "_" + (scalaVersion match {
+        case "2.10.0" => "2.10.0"
+        case version => version
+      })
+      val scalatest = "scalatest" + _scalaVersion
       scalaVersion match {
-        case "2.10.0-RC1"|"2.10.0" => {
-          val playVersion = "2.1-RC1"
+        case "2.10.0" => {
+          val playVersion = "2.1.0"
           Seq(
             "play" % "play_2.10" % playVersion % "provided",
-            "play" % "play-test_2.10" % playVersion % "test",
-            "org.scalatest" %% "scalatest" % "1.8"   % "test"
-          )
-        }
-        case _ => {
-          val playVersion = "2.0.4"
-          Seq(
-            "play" % "play_2.9.1" % playVersion % "provided",
-            "play" % "play-test_2.9.1" % playVersion % "test",
-            "org.scalatest" %% "scalatest" % "1.8"   % "test"
+            "org.scalatest" % scalatest % "1.8"   % "test"
           )
         }
       }
