@@ -63,7 +63,7 @@ object AppBuild extends Build {
       val scalatest = "scalatest" + _scalaVersion
       scalaVersion match {
         case "2.10.0" => {
-          val playVersion = "2.1.0"
+          val playVersion = "2.1.1"
           Seq(
             "play" % "play_2.10" % playVersion % "provided",
             "org.scalatest" % scalatest % "1.8"   % "test"
