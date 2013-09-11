@@ -62,7 +62,7 @@ val v = Validator(params)(
 
 See the following source code:
 
-https://github.com/seratch/inputvalidator/blob/master/src/main/scala/inputvalidator/BuiltinValidations.scala
+https://github.com/seratch/inputvalidator/blob/master/library/src/main/scala/inputvalidator/BuiltinValidations.scala
 
 Your pull requests are always welcome.
 
@@ -95,28 +95,28 @@ val v = Valdiator(
 Supports the standard way to use `messages.properties`.
 
 ```scala
-Validator(params)(
-  input("username" -> username) is required,
-  input("passowrd" -> password) is required,
-  input("login" -> (username, password)) is authenticated
-).failure { (inputs, errors) =>
-  respond(status = 400, 
-    body = render(
-      "input.ssp",
-      "useraname" -> inputs.get("username"),
-      "password" -> inputs.get("password"),
-      "errors" -> inputs.keys.flatMap { key =>
-        errors.get(key).map { error =>
-          Messages.get(key = error.name,
-            params = key :: error.messageParams.toList
-          ).getOrElse(error.name)
+post("login") {
+  Validator(params)(
+    input("username" -> username) is required,
+    input("passowrd" -> password) is required,
+    input("login" -> (username, password)) is authenticated
+  ).success { inputs =>
+    respond(status = 200, body = render("completed.ssp"))
+  }.failure { (inputs, errors) =>
+    respond(
+      status = 400, 
+      body = render("input.ssp",
+        "useraname" -> inputs.get("username"),
+        "password" -> inputs.get("password"),
+        "errors" -> inputs.keys.flatMap { key =>
+          errors.get(key).map { error =>
+            Messages.get(key = error.name, params = key :: error.messageParams.toList).getOrElse(error.name)
+          }
         }
-      }
+      )
     )
-  )
-}.success { inputs =>
-  respond(status = 200, body = render("completed.ssp"))
-}.apply()
+  }.apply()
+}
 ```
 
 

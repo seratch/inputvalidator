@@ -9,7 +9,7 @@ scalaVersion := "2.9.1"
 seq(webSettings :_*)
 
 libraryDependencies ++= Seq(
-  "com.github.seratch" %% "inputvalidator" % "[0.1,)",
+  "com.github.seratch" %% "inputvalidator" % "[0.2,)",
   "org.scalatra" %% "scalatra" % "2.0.4",
   "org.scalatra" %% "scalatra-scalate" % "2.0.4",
   "org.scalatra" %% "scalatra-specs2" % "2.0.4" % "test",

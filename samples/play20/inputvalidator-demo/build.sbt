@@ -1,3 +1,4 @@
-seq(scalariformSettings: _*)
+scalariformSettings
 
+net.virtualvoid.sbt.graph.Plugin.graphSettings
 
