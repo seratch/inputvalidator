@@ -10,7 +10,7 @@ sealed trait Inputs {
   def toMap(): Map[String, Any] = inputMap
   def toSeq(): Seq[Input] = inputMap.toSeq.map { case (k, v) => KeyValueInput(k, v) }
 
-  def getOpt(key: String): Option[Any] = inputMap.get(key)
+  def getOpt(key: String): Option[Any] = inputMap.get(key).filterNot(_ == null)
   def get(key: String): Any = inputMap.getOrElse(key, null)
   def getOrElse[A](key: String, default: A): A = inputMap.get(key).map(_.asInstanceOf[A]).getOrElse(default)
 
@@ -77,7 +77,7 @@ sealed trait Inputs {
     }
   }
 
-  def stringOpt(key: String) = getOpt(key).filter(_ != null).map(_.toString)
+  def stringOpt(key: String) = getOpt(key).map(_.toString)
 
   def boolean(key: String): Boolean = booleanOpt(key).get
   def byte(key: String): Byte = byteOpt(key).get
