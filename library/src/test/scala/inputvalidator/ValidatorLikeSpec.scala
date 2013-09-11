@@ -9,7 +9,7 @@ class ValidatorLikeSpec extends FlatSpec with ShouldMatchers {
 
   it should "be available" in {
     val mixedin = new Object with ValidatorLike {
-      val results: Results = Results(Map(), Nil)
+      val validations: Validations = Validations(Map(), Nil)
     }
     mixedin should not be null
   }

@@ -1,9 +1,8 @@
 package inputvalidator.play
 
-import inputvalidator.Validation
-import play.api.mvc.MultipartFormData.FilePart
+import _root_.play.api.mvc.MultipartFormData.FilePart
 
-object fileRequired extends Validation {
+object fileRequired extends inputvalidator.ValidationRule {
 
   def name = "fileRequired"
 

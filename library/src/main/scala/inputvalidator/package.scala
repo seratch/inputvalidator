@@ -4,18 +4,18 @@ package object inputvalidator {
 
   def inputKey(name: String): KeyInput = KeyInput(name)
 
-  def checkAll(vs: Validation*): Validation = {
-    def merge(v1: Validation, v2: Validation): Validation = {
-      new Object with Validation {
+  def checkAll(vs: ValidationRule*): ValidationRule = {
+    def merge(v1: ValidationRule, v2: ValidationRule): ValidationRule = {
+      new Object with ValidationRule {
 
         def name: String = "combined-results"
         def isValid(value: Any): Boolean = throw new IllegalStateException
 
-        override def apply(input: KeyValueInput): Result = {
+        override def apply(input: KeyValueInput): Validation = {
           v1.apply(input) match {
-            case res1: Success => v2.apply(input)
-            case res1: Failure =>
-              Failure(input = input, errors = res1.errors ++ v2.apply(input).errors)
+            case res1: ValidationSuccess => v2.apply(input)
+            case res1: ValidationFailure =>
+              ValidationFailure(input = input, errors = res1.errors ++ v2.apply(input).errors)
             case _ => throw new IllegalStateException
           }
         }
@@ -27,9 +27,9 @@ package object inputvalidator {
 
   private[inputvalidator] class InputWithIs(input: Input) {
 
-    def is(validations: Validation): NotYet = NotYet(input, validations)
+    def is(validations: ValidationRule): NewValidation = NewValidation(input, validations)
 
-    def are(validations: Validation): NotYet = NotYet(input, validations)
+    def are(validations: ValidationRule): NewValidation = NewValidation(input, validations)
 
   }
 

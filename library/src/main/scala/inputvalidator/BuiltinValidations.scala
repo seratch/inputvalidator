@@ -3,7 +3,7 @@ package inputvalidator
 // ----
 // input("x" -> "") is notNull
 
-object notNull extends Validation {
+object notNull extends ValidationRule {
   def name = "notNull"
   def isValid(v: Any) = v != null
 }
@@ -11,13 +11,13 @@ object notNull extends Validation {
 // ----
 // input("x" -> "y") is required
 
-object required extends Validation {
+object required extends ValidationRule {
   private[this] val instance = required()
   def name = instance.name
   def isValid(v: Any) = instance.isValid(v)
 }
 
-case class required(trim: Boolean = true) extends Validation {
+case class required(trim: Boolean = true) extends ValidationRule {
   def name = "required"
   def isValid(v: Any) = v != null && {
     if (trim) v.toString.trim.length > 0
@@ -29,12 +29,12 @@ case class required(trim: Boolean = true) extends Validation {
 // input("x" -> "y") is notEmpty
 // input("list" -> Seq(1,2,3)) is notEmpty
 
-object notEmpty extends Validation {
+object notEmpty extends ValidationRule {
   private[this] val instance = notEmpty()
   def name = instance.name
   def isValid(v: Any) = instance.isValid(v)
 }
-case class notEmpty(trim: Boolean = true) extends Validation {
+case class notEmpty(trim: Boolean = true) extends ValidationRule {
   def name = "notEmpty"
   def isValid(v: Any) = v != null && {
     utils.toHasSize(v).map {
@@ -46,7 +46,7 @@ case class notEmpty(trim: Boolean = true) extends Validation {
   }
 }
 
-case class length(len: Int) extends Validation {
+case class length(len: Int) extends ValidationRule {
   def name = "length"
   override def messageParams = Seq(len.toString)
   def isValid(v: Any) = v != null && {
@@ -62,7 +62,7 @@ case class length(len: Int) extends Validation {
 // input("x" -> "yyyymmdd") is minLength(3)
 // input("list" -> (1 to 5)) is minLength(3)
 
-case class minLength(min: Int) extends Validation {
+case class minLength(min: Int) extends ValidationRule {
   def name = "minLength"
   override def messageParams = Seq(min.toString)
   def isValid(v: Any) = v != null && {
@@ -78,7 +78,7 @@ case class minLength(min: Int) extends Validation {
 // input("x" -> "y") is maxLength(3)
 // input("list" -> Seq(1,2)) is maxLength(3)
 
-case class maxLength(max: Int) extends Validation {
+case class maxLength(max: Int) extends ValidationRule {
   def name = "maxLength"
   override def messageParams = Seq(max.toString)
   def isValid(v: Any) = v != null && {
@@ -94,7 +94,7 @@ case class maxLength(max: Int) extends Validation {
 // input("x" -> "y") is minMaxLength(3, 6)
 // input("list" -> Seq(1,2,3,4)) is minMaxLength(3, 6)
 
-case class minMaxLength(min: Int, max: Int) extends Validation {
+case class minMaxLength(min: Int, max: Int) extends ValidationRule {
   def name = "minMaxLength"
   override def messageParams = Seq(min.toString, max.toString)
   def isValid(v: Any) = v != null && {
@@ -110,7 +110,7 @@ case class minMaxLength(min: Int, max: Int) extends Validation {
 // input("x" -> "123") is numeric
 // input("x" -> 0.123D) is numeric
 
-object numeric extends Validation {
+object numeric extends ValidationRule {
   def name = "numeric"
   def isValid(v: Any) = v != null &&
     "^((-|\\+)?[0-9]+(\\.[0-9]+)?)+$".r.findFirstIn(v.toString).isDefined
@@ -119,7 +119,7 @@ object numeric extends Validation {
 // ----
 // input("x" -> 4) is intMinMaxValue(3, 5)
 
-case class intMinMaxValue(min: Int, max: Int) extends Validation {
+case class intMinMaxValue(min: Int, max: Int) extends ValidationRule {
   def name = "intMinMaxValue"
   override def messageParams = Seq(min.toString, max.toString)
   def isValid(v: Any) = v != null && v.toString.toInt >= min && v.toString.toInt <= max
@@ -128,7 +128,7 @@ case class intMinMaxValue(min: Int, max: Int) extends Validation {
 // ----
 // input("x" -> 2) is intMinValue(3)
 
-case class intMinValue(min: Int) extends Validation {
+case class intMinValue(min: Int) extends ValidationRule {
   def name = "intMinValue"
   override def messageParams = Seq(min.toString)
   def isValid(v: Any) = v != null && v.toString.toInt >= min
@@ -137,7 +137,7 @@ case class intMinValue(min: Int) extends Validation {
 // ----
 // input("x" -> 4) is intMaxValue(5)
 
-case class intMaxValue(max: Int) extends Validation {
+case class intMaxValue(max: Int) extends ValidationRule {
   def name = "intMaxValue"
   override def messageParams = Seq(max.toString)
   def isValid(v: Any) = v != null && v.toString.toInt <= max
@@ -146,7 +146,7 @@ case class intMaxValue(max: Int) extends Validation {
 // ----
 // input("x" -> "3") is longMinMaxValue(3L, 5L)
 
-case class longMinMaxValue(min: Long, max: Long) extends Validation {
+case class longMinMaxValue(min: Long, max: Long) extends ValidationRule {
   def name = "longMinMaxValue"
   override def messageParams = Seq(min.toString, max.toString)
   def isValid(v: Any) = v != null && v.toString.toLong >= min && v.toString.toLong <= max
@@ -155,7 +155,7 @@ case class longMinMaxValue(min: Long, max: Long) extends Validation {
 // ----
 // input("x" -> 5) is longMinValue(3L)
 
-case class longMinValue(min: Long) extends Validation {
+case class longMinValue(min: Long) extends ValidationRule {
   def name = "longMinValue"
   override def messageParams = Seq(min.toString)
   def isValid(v: Any) = v != null && v.toString.toLong >= min
@@ -164,7 +164,7 @@ case class longMinValue(min: Long) extends Validation {
 // ----
 // input("x" -> 1.0D) is longMaxValue(5L)
 
-case class longMaxValue(max: Long) extends Validation {
+case class longMaxValue(max: Long) extends ValidationRule {
   def name = "longMaxValue"
   override def messageParams = Seq(max.toString)
   def isValid(v: Any) = v != null && v.toString.toLong <= max
@@ -173,7 +173,7 @@ case class longMaxValue(max: Long) extends Validation {
 // ----
 // input("pair" -> ("pass", "pass")) are same
 
-object same extends Validation {
+object same extends ValidationRule {
   def name = "same"
   def isValid(pair: Any) = {
     val (a, b) = pair.asInstanceOf[(Any, Any)]
@@ -190,7 +190,7 @@ object same extends Validation {
 // input("email" -> "alice@example.com") is email
 // [NOTE] This is not a complete solution
 
-object email extends Validation {
+object email extends ValidationRule {
   def name = "email"
   def isValid(v: Any) = v != null &&
     """^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$""".r.findFirstIn(v.toString).isDefined
@@ -200,7 +200,7 @@ object email extends Validation {
 // input("time" -> new java.util.Date(123L)) is past
 // input("time" -> org.joda.time.DateTime.now.minusDays(3)) is past
 
-object past extends Validation {
+object past extends ValidationRule {
   def name = "past"
   def isValid(v: Any): Boolean = {
     if (v != null) {
@@ -215,7 +215,7 @@ object past extends Validation {
 // ----
 // input("time" -> new java.util.Date) is future
 
-object future extends Validation {
+object future extends ValidationRule {
   def name = "future"
   def isValid(v: Any): Boolean = {
     if (v != null) {

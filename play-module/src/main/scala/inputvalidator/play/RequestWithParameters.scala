@@ -10,7 +10,7 @@ case class RequestWithParameters(req: Request[_]) {
     req.body match {
 
       case AnyContentAsMultipartFormData(mdf) => mdf match {
-        case MultipartFormData(dataParts: Map[_, _], files: Seq[_], _) =>
+        case MultipartFormData(dataParts: Map[_, _], files: Seq[_], _, _) =>
           val parameters: Map[String, Any] = dataParts.map {
             case (k, Nil) => (k.toString, null)
             case (k, v: Seq[_]) if v.size == 1 => (k.toString, v.head)

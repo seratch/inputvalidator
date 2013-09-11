@@ -15,7 +15,7 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
     )
 
     val res1: Int = validator.success {
-      inputs => inputs.int("id").getOrElse(-1)
+      inputs => inputs.intOpt("id").getOrElse(-1)
     }.failure {
       (inputs, errors) => -1
     }.apply()
@@ -23,7 +23,7 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
 
     val res2: Int = validator.fold(
       (inputs: Inputs, errors: Errors) => -1,
-      (inputs: Inputs) => inputs.int("id").getOrElse(-1)
+      (inputs: Inputs) => inputs.intOpt("id").getOrElse(-1)
     )
     res2 should equal(12345)
 
@@ -88,7 +88,7 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
       inputKey("password") is required,
       inputKey("newPassword") is required & minLength(6),
       inputKey("reNewPassword") is required & minLength(6),
-      input("pair" -> (params.get("newPassword"), params.get("reNewPassword"))) are same
+      input("pair" -> (params("newPassword"), params("reNewPassword"))) are same
     )
     v.errors.size should equal(3)
   }
@@ -96,7 +96,7 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
   object AuthService {
     def authenticate(username: String, password: String) = username == password
   }
-  case object authenticated extends Validation {
+  case object authenticated extends ValidationRule {
     def name = "authenticated"
     def isValid(v: Any) = {
       val (username, password) = v.asInstanceOf[(String, String)]
@@ -123,8 +123,8 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
       .apply(input("a", "aa") is required)
       .apply(input("b", "bb") is required)
       .success { inputs =>
-        inputs.string("a").get should equal("aa")
-        inputs.string("b").get should equal("bb")
+        inputs.string("a") should equal("aa")
+        inputs.string("b") should equal("bb")
       }.failure { (inputs, errors) =>
         fail()
       }.apply()
@@ -133,9 +133,9 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
       .apply(inputKey("a") is required)
       .apply(inputKey("b") is required)
       .success { inputs =>
-        inputs.int("a").get should equal(1)
-        inputs.int("b").get should equal(2)
-        inputs.int("c").get should equal(3)
+        inputs.int("a") should equal(1)
+        inputs.int("b") should equal(2)
+        inputs.int("c") should equal(3)
       }.failure { (inputs, errors) =>
         fail()
       }.apply()
@@ -149,9 +149,9 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
       .success { inputs =>
         fail()
       }.failure { (inputs, errors) =>
-        inputs.string("a").get should equal(null)
-        inputs.string("b").get should equal("")
-        inputs.string("c").get should equal("cc")
+        inputs.string("a") should equal(null)
+        inputs.string("b") should equal("")
+        inputs.string("c") should equal("cc")
       }.apply()
 
     Validator(Map("a" -> null, "b" -> "", "c" -> "cc"))
@@ -160,9 +160,9 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
       .success { inputs =>
         fail()
       }.failure { (inputs, errors) =>
-        inputs.string("a").get should equal(null)
-        inputs.string("b").get should equal("")
-        inputs.string("c").get should equal("cc")
+        inputs.string("a") should equal(null)
+        inputs.string("b") should equal("")
+        inputs.string("c") should equal("cc")
       }.apply()
   }
 
@@ -174,8 +174,8 @@ class ValidatorSpec extends FlatSpec with ShouldMatchers {
         fail()
       }.failure { (inputs, errors) =>
         inputs.keys().size should equal(2)
-        inputs.string("first").get should equal("aaa")
-        inputs.string("second").get should equal(null)
+        inputs.string("first") should equal("aaa")
+        inputs.string("second") should equal(null)
       }.apply()
   }
 
