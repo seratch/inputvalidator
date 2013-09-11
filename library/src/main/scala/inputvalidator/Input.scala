@@ -4,7 +4,6 @@ sealed trait Input {
 
   val key: String
   val value: Any
-
 }
 
 case class KeyInput(override val key: String) extends Input {

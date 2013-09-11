@@ -1,4 +1,3 @@
-seq(scalariformSettings: _*)
+scalariformSettings
 
-seq(testgeneratorSettings: _*)
 

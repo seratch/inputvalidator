@@ -5,44 +5,46 @@ sealed trait Inputs {
   protected val inputMap: Map[String, Any]
 
   def keys(): Seq[String] = toSeq().map(_.key)
-
   def values(): Seq[Any] = toSeq().map(_.value)
 
   def toMap(): Map[String, Any] = inputMap
-
   def toSeq(): Seq[Input] = inputMap.toSeq.map { case (k, v) => KeyValueInput(k, v) }
 
-  def get(key: String): Option[Any] = inputMap.get(key)
-
+  def getOpt(key: String): Option[Any] = inputMap.get(key)
+  def get(key: String): Any = inputMap.getOrElse(key, null)
   def getOrElse[A](key: String, default: A): A = inputMap.get(key).map(_.asInstanceOf[A]).getOrElse(default)
 
-  def boolean(key: String) = inputMap.get(key).asInstanceOf[Option[Boolean]]
+  def booleanOpt(key: String): Option[Boolean] = inputMap.get(key).map(_.asInstanceOf[Boolean])
+  def boolean(key: String): Boolean = booleanOpt(key).get
 
-  def byte(key: String) = inputMap.get(key).asInstanceOf[Option[Byte]]
+  def byteOpt(key: String): Option[Byte] = inputMap.get(key).map(_.asInstanceOf[Byte])
+  def byte(key: String): Byte = byteOpt(key).get
 
-  def double(key: String) = inputMap.get(key).asInstanceOf[Option[Double]]
+  def doubleOpt(key: String): Option[Double] = inputMap.get(key).map(_.asInstanceOf[Double])
+  def double(key: String): Double = doubleOpt(key).get
 
-  def float(key: String) = inputMap.get(key).asInstanceOf[Option[Float]]
+  def floatOpt(key: String): Option[Float] = inputMap.get(key).map(_.asInstanceOf[Float])
+  def float(key: String): Float = floatOpt(key).get
 
-  def int(key: String) = inputMap.get(key).asInstanceOf[Option[Int]]
+  def intOpt(key: String): Option[Int] = inputMap.get(key).map(_.asInstanceOf[Int])
+  def int(key: String): Int = intOpt(key).get
 
-  def long(key: String) = inputMap.get(key).asInstanceOf[Option[Long]]
+  def longOpt(key: String): Option[Long] = inputMap.get(key).map(_.asInstanceOf[Long])
+  def long(key: String): Long = longOpt(key).get
 
-  def short(key: String) = inputMap.get(key).asInstanceOf[Option[Short]]
+  def shortOpt(key: String): Option[Short] = inputMap.get(key).map(_.asInstanceOf[Short])
+  def short(key: String): Short = shortOpt(key).get
 
-  def string(key: String) = inputMap.get(key).asInstanceOf[Option[String]]
+  def stringOpt(key: String): Option[String] = inputMap.get(key).map(_.asInstanceOf[String])
+  def string(key: String): String = stringOpt(key).get
 
 }
 
-case class InputsFromResults(results: Results) extends Inputs {
-
+case class InputsFromResults(results: Validations) extends Inputs {
   override protected val inputMap: Map[String, Any] = results.toMap()
-
 }
 
 case class InputsFromMap(map: Map[String, Any]) extends Inputs {
-
   override protected val inputMap: Map[String, Any] = map
-
 }
 

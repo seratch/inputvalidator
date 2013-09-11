@@ -1,6 +1,6 @@
 package inputvalidator
 
-case class Results(inputMap: Map[String, Any], results: Seq[Result]) {
+case class Validations(inputMap: Map[String, Any], validations: Seq[Validation]) {
 
   def inputs: Inputs = InputsFromMap(inputMap)
 
@@ -8,9 +8,9 @@ case class Results(inputMap: Map[String, Any], results: Seq[Result]) {
 
   def isSuccess: Boolean = filterFailuresOnly().isEmpty
 
-  def filterSuccessesOnly(): Seq[Success] = results.filter(r => r.isInstanceOf[Success]).map(r => r.asInstanceOf[Success])
+  def filterSuccessesOnly(): Seq[ValidationSuccess] = validations.filter(r => r.isInstanceOf[ValidationSuccess]).map(r => r.asInstanceOf[ValidationSuccess])
 
-  def filterFailuresOnly(): Seq[Failure] = results.filter(r => r.isInstanceOf[Failure]).map(r => r.asInstanceOf[Failure])
+  def filterFailuresOnly(): Seq[ValidationFailure] = validations.filter(r => r.isInstanceOf[ValidationFailure]).map(r => r.asInstanceOf[ValidationFailure])
 
   def filterErrorsOnly(): Map[String, Seq[Error]] = filterFailuresOnly().groupBy(_.input.key).map {
     case (key, fs) => (key, fs.flatMap(_.errors))
@@ -24,9 +24,9 @@ case class Results(inputMap: Map[String, Any], results: Seq[Result]) {
     FailuresProjection[A](this, ResultsProjection.defaultOnSuccess, ResultsProjection.defaultOnFailures).map(f)
   }
 
-  def toSeq(): Seq[Result] = results
+  def toSeq(): Seq[Validation] = validations
 
-  def toMap(): Map[String, Any] = Map(results.map { r => (r.input.key, r.input.value) }: _*)
+  def toMap(): Map[String, Any] = Map(validations.map { r => (r.input.key, r.input.value) }: _*)
 
 }
 

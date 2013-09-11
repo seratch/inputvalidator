@@ -14,7 +14,7 @@ object ResultsProjection {
 
 sealed trait ResultsProjection[+A] {
 
-  val results: Results
+  val results: Validations
 
   val onSuccess: (Inputs) => A
 
@@ -35,7 +35,7 @@ sealed trait ResultsProjection[+A] {
 
 }
 
-case class SuccessesProjection[+A](override val results: Results,
+case class SuccessesProjection[+A](override val results: Validations,
     override val onSuccess: (Inputs) => A,
     override val onFailures: (Inputs, Errors) => A) extends ResultsProjection[A] {
 
@@ -45,7 +45,7 @@ case class SuccessesProjection[+A](override val results: Results,
 
 }
 
-case class FailuresProjection[+A](override val results: Results,
+case class FailuresProjection[+A](override val results: Validations,
     override val onSuccess: (Inputs) => A,
     override val onFailures: (Inputs, Errors) => A) extends ResultsProjection[A] {
 

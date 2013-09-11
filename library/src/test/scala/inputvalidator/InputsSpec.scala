@@ -8,7 +8,7 @@ class InputsSpec extends FlatSpec with ShouldMatchers {
   behavior of "Inputs"
 
   it should "be available" in {
-    val results: Results = Results(Map(), Nil)
+    val results: Validations = Validations(Map(), Nil)
     val instance = InputsFromResults(results)
     instance should not be null
   }

@@ -3,7 +3,7 @@
 ## Scala Input Validator with quite readable DSL
 
 ```
-libraryDependencies += "com.github.seratch" %% "inputvalidator" % "[0.2,)"
+libraryDependencies += "com.github.seratch" %% "inputvalidator" % "[1.0,)"
 ```
 
 Use as follows:
@@ -11,23 +11,38 @@ Use as follows:
 ```scala
 import inputvalidator._
 
-val validator = Validator(
+case class Registration(id: Int, firstName: String, lastName: Option[String], gender: String)
+
+val validator = Validator {
   input("id" -> 12345) is required & maxLength(4), // 1 error
   input("first_name" -> "") is notNull & minLength(3), // 1 error
   input("last_name" -> "Kaz") is checkAll(minLength(5), numeric), // 2 errors
   input("gender" -> "male") is notEmpty
-)
 
-val res: String = validator.fold(
-  (e: Errors) => "Failed! : " + e, 
-  (in: Inputs) => in.string("first_name") 
-)
+}
 
-val res: String = validator.success { 
+val res: String = validator.success {
   inputs => inputs.string("first_name")
-}.failure { 
+}.failure {
   (inputs, errors) => "Failed! : " + errors
 }.apply()
+
+val form = validator.map { inputs => 
+  Registration(
+    id        = inputs.int("id"),
+    firstName = inputs.string("first_name"),
+    lastName  = inputs.string("last_name"),
+    gender    = inputs.string("gender")
+  )
+}
+
+if (form.hasErrors) {
+  BadRequest(form.errors)
+} else {
+  val registration = form.get
+  User.create(registration)
+  Ok
+}
 ```
 
 Accepting `Map` value is also simple:
@@ -56,10 +71,10 @@ Your pull requests are always welcome.
 
 If you need to add validations, it's quite simple.
 
-Just add new class which extends `inputvalidator.Validation` as follows:
+Just add new class which extends `inputvalidator.ValidationRule` as follows:
 
 ```scala
-object authenticated extends Validation {
+object authenticated extends ValidationRule {
   def name = "authenticated"
   def isValid(v: Any) = {
     val (username, password) = v.asInstanceOf[(String, String)]
@@ -127,6 +142,8 @@ https://github.com/seratch/inputvalidator/tree/master/samples/circumflex
 
 
 ## License
+
+Copyright 2013 Kazuhiro Sera
 
 Apache License, Version 2.0
 
