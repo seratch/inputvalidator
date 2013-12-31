@@ -1,5 +1,15 @@
 # InputValidator
 
+## Important Notice
+
+inputvalidator is already in maintenance mode. So only bug fixes will be released and new features won't be implemented.
+
+Now I'm working harder on skinny-validator (it's a successor of inputvalidator and some APIs are refactored). skinny-validator is a part of skinny-framework but it doesn't depend on skinny. You can use skinny-validator anywhere as same as well as inputvalidator.
+
+https://github.com/skinny-framework/skinny-framework/tree/develop/validator
+
+http://skinny-framework.org/documentation/validator.html
+
 ## Scala Input Validator with quite readable DSL
 
 ```
