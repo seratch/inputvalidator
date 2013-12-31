@@ -24,11 +24,11 @@ class InputValidatorDemo extends ScalatraServlet with ScalateSupport {
       inputKey("username") is required & minLength(3),
       inputKey("password") is required & minLength(5)
     ).success { inputs => 
-      ssp("index", "username" -> inputs.string("username")) 
+      ssp("index", "username" -> inputs.stringOpt("username")) 
     }.failure { (inputs, errors) =>
       halt(status = 400, body = ssp("login",
-        "username" -> inputs.get("username"),
-        "password" -> inputs.get("password"),
+        "username" -> inputs.getOpt("username"),
+        "password" -> inputs.getOpt("password"),
         "errors" -> inputs.keys.flatMap { key =>
           errors.get(key).map { error =>
             Messages.get(
