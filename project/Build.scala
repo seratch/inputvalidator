@@ -5,7 +5,7 @@ object AppBuild extends Build {
 
   // library project
 
-  val _version = "1.0.0-SNAPSHOT"
+  val _version = "1.0.0"
 
   lazy val libraryProject = Project(id = "library", base = file("library"), settings = Defaults.defaultSettings ++ Seq(
     sbtPlugin := false,
