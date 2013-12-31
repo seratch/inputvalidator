@@ -19,8 +19,8 @@ class MyRouter extends Router with ScalateSupport {
     ).failure { (inputs, errors) =>
       render("WEB-INF/views/login.ssp", 
         Map(
-          "username" -> inputs.get("username"),
-          "password" -> inputs.get("password"),
+          "username" -> inputs.getOpt("username"),
+          "password" -> inputs.getOpt("password"),
           "errors" -> inputs.keys.flatMap { key =>
             errors.get(key).map { error =>
               Messages.get(
@@ -33,7 +33,7 @@ class MyRouter extends Router with ScalateSupport {
       )
     }.success { inputs =>
       render("WEB-INF/views/index.ssp", 
-        Map("username" -> inputs.get("username").map(_.toString))
+        Map("username" -> inputs.getOpt("username").map(_.toString))
       )
     }.apply()
   }

@@ -21,11 +21,11 @@ object Application extends Controller {
       inputKey("username") is required & minLength(3),
       inputKey("password") is required & minLength(5)
     ).success { inputs =>
-        Ok(views.html.index(inputs.get("username").map(_.toString)))
+        Ok(views.html.index(inputs.getOpt("username").map(_.toString)))
       }.failure { (inputs, errors) =>
         BadRequest(views.html.loginInput(
-          username = inputs.string("username"),
-          password = inputs.string("password"),
+          username = inputs.stringOpt("username"),
+          password = inputs.stringOpt("password"),
           errors = inputs.keys.flatMap { key =>
             errors.get(key).map { error =>
               Messages.get(key = error.name, params = key :: error.messageParams.toList).getOrElse(error.name)
@@ -44,11 +44,11 @@ object Application extends Controller {
       inputKey("name") is required & minLength(3),
       inputKey("profile_image") is fileRequired
     ).success { inputs =>
-        Ok(views.html.index(inputs.get("name").map(_.toString)))
+        Ok(views.html.index(inputs.getOpt("name").map(_.toString)))
       }.failure { (inputs, errors) =>
         BadRequest(views.html.uploadInput(
-          name = inputs.string("name"),
-          profileImage = inputs.get("profile_image"),
+          name = inputs.stringOpt("name"),
+          profileImage = inputs.getOpt("profile_image"),
           errors = inputs.keys.flatMap { key =>
             errors.get(key).map { error =>
               Messages.get(key = error.name, params = key :: error.messageParams.toList).getOrElse(error.name)

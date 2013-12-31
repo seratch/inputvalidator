@@ -31,7 +31,7 @@ val form = validator.map { inputs =>
   Registration(
     id        = inputs.int("id"),
     firstName = inputs.string("first_name"),
-    lastName  = inputs.string("last_name"),
+    lastName  = inputs.stringOpt("last_name"),
     gender    = inputs.string("gender")
   )
 }

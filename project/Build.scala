@@ -5,7 +5,7 @@ object AppBuild extends Build {
 
   // library project
 
-  val _version = "1.0.0-SNAPSHOT"
+  val _version = "1.0.0"
 
   lazy val libraryProject = Project(id = "library", base = file("library"), settings = Defaults.defaultSettings ++ Seq(
     sbtPlugin := false,
@@ -44,7 +44,7 @@ object AppBuild extends Build {
     libraryDependencies <++= (scalaVersion) { scalaVersion =>
       (scalaVersion match {
         case "2.10.2" => {
-          val playVersion = "2.2.0-RC1"
+          val playVersion = "2.2.1"
           Seq(
             "com.typesafe.play" %  "play_2.10"      % playVersion % "provided",
             "com.typesafe.play" %  "play-test_2.10" % playVersion % "test",
@@ -53,7 +53,7 @@ object AppBuild extends Build {
           )
         }
         case _ => {
-          val playVersion = "2.0.4"
+          val playVersion = "2.0.8"
           Seq(
             "play"          % "play_2.9.1"      % playVersion % "provided",
             "play"          % "play-test_2.9.1" % playVersion % "test",
